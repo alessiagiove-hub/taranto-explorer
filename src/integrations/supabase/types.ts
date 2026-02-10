@@ -14,7 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      venues: {
+        Row: {
+          address: string
+          category: string
+          created_at: string
+          description: string
+          description_it: string
+          google_maps_link: string
+          id: string
+          image_url: string
+          is_hero: boolean
+          is_premium: boolean
+          name: string
+          phone: string
+          price_level: string
+          rating: number
+          special_offer: string | null
+          zone: string
+        }
+        Insert: {
+          address?: string
+          category: string
+          created_at?: string
+          description: string
+          description_it?: string
+          google_maps_link?: string
+          id?: string
+          image_url?: string
+          is_hero?: boolean
+          is_premium?: boolean
+          name: string
+          phone?: string
+          price_level: string
+          rating?: number
+          special_offer?: string | null
+          zone: string
+        }
+        Update: {
+          address?: string
+          category?: string
+          created_at?: string
+          description?: string
+          description_it?: string
+          google_maps_link?: string
+          id?: string
+          image_url?: string
+          is_hero?: boolean
+          is_premium?: boolean
+          name?: string
+          phone?: string
+          price_level?: string
+          rating?: number
+          special_offer?: string | null
+          zone?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

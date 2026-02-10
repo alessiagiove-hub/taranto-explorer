@@ -1,8 +1,10 @@
 import { useState, useMemo } from "react";
+import { motion } from "framer-motion";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useVenues } from "@/hooks/useVenues";
 import { useFavorites } from "@/hooks/useFavorites";
 import { Category, Zone } from "@/data/types";
+import { PageTransition, staggerContainer, fadeUp } from "@/components/animations";
 import Header from "@/components/Header";
 import HeroCarousel from "@/components/HeroCarousel";
 import CategoryGrid from "@/components/CategoryGrid";
@@ -33,46 +35,62 @@ const Index = () => {
   }, [venues, selectedCategory, selectedZone, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-background pb-20">
-      <Header searchQuery={searchQuery} onSearchChange={setSearchQuery} />
-      
-      {isLoading ? (
-        <div className="px-4 py-6 space-y-4">
-          <Skeleton className="w-full aspect-[16/9] rounded-xl" />
-          <div className="grid grid-cols-3 gap-3">
-            {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-20 rounded-xl" />)}
-          </div>
-          {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-24 rounded-xl" />)}
-        </div>
-      ) : (
-        <>
-          <HeroCarousel venues={heroVenues} />
-          <CategoryGrid selectedCategory={selectedCategory} onSelectCategory={setSelectedCategory} />
-          <ZoneFilter selectedZone={selectedZone} onSelectZone={setSelectedZone} />
-
-          <section className="px-4 pb-6">
-            <h2 className="text-lg font-display font-bold text-foreground mb-3">
-              {t("home.top_picks")}
-            </h2>
-            <div className="flex flex-col gap-3">
-              {filteredVenues.map((venue) => (
-                <VenueCard
-                  key={venue.id}
-                  venue={venue}
-                  isFavorite={isFavorite(venue.id)}
-                  onToggleFavorite={toggleFavorite}
-                />
-              ))}
+    <PageTransition>
+      <div className="min-h-screen bg-background pb-20">
+        <Header searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+        
+        {isLoading ? (
+          <div className="px-4 py-6 space-y-4">
+            <Skeleton className="w-full aspect-[16/9] rounded-xl" />
+            <div className="grid grid-cols-3 gap-3">
+              {[...Array(6)].map((_, i) => <Skeleton key={i} className="h-20 rounded-xl" />)}
             </div>
-            {filteredVenues.length === 0 && (
-              <p className="text-center text-muted-foreground text-sm py-8">
-                No venues found. Try adjusting your filters.
-              </p>
-            )}
-          </section>
-        </>
-      )}
-    </div>
+            {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-24 rounded-xl" />)}
+          </div>
+        ) : (
+          <>
+            <motion.div variants={fadeUp} initial="initial" animate="animate">
+              <HeroCarousel venues={heroVenues} />
+            </motion.div>
+
+            <CategoryGrid selectedCategory={selectedCategory} onSelectCategory={setSelectedCategory} />
+            <ZoneFilter selectedZone={selectedZone} onSelectZone={setSelectedZone} />
+
+            <section className="px-4 pb-6">
+              <motion.h2
+                className="text-lg font-display font-bold text-foreground mb-3"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                {t("home.top_picks")}
+              </motion.h2>
+              <motion.div
+                className="flex flex-col gap-3"
+                variants={staggerContainer}
+                initial="initial"
+                animate="animate"
+              >
+                {filteredVenues.map((venue) => (
+                  <motion.div key={venue.id} variants={fadeUp}>
+                    <VenueCard
+                      venue={venue}
+                      isFavorite={isFavorite(venue.id)}
+                      onToggleFavorite={toggleFavorite}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+              {filteredVenues.length === 0 && (
+                <p className="text-center text-muted-foreground text-sm py-8">
+                  No venues found. Try adjusting your filters.
+                </p>
+              )}
+            </section>
+          </>
+        )}
+      </div>
+    </PageTransition>
   );
 };
 

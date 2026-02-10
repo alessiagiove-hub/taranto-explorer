@@ -26,6 +26,8 @@ export type Database = {
           image_url: string
           is_hero: boolean
           is_premium: boolean
+          lat: number | null
+          lng: number | null
           name: string
           phone: string
           price_level: string
@@ -44,6 +46,8 @@ export type Database = {
           image_url?: string
           is_hero?: boolean
           is_premium?: boolean
+          lat?: number | null
+          lng?: number | null
           name: string
           phone?: string
           price_level: string
@@ -62,6 +66,8 @@ export type Database = {
           image_url?: string
           is_hero?: boolean
           is_premium?: boolean
+          lat?: number | null
+          lng?: number | null
           name?: string
           phone?: string
           price_level?: string

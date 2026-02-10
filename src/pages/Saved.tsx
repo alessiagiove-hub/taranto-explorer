@@ -1,12 +1,13 @@
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useFavorites } from "@/hooks/useFavorites";
-import { venues } from "@/data/venues";
+import { useVenues } from "@/hooks/useVenues";
 import VenueCard from "@/components/VenueCard";
 import { Heart } from "lucide-react";
 
 const Saved = () => {
   const { t } = useLanguage();
   const { favorites, isFavorite, toggleFavorite } = useFavorites();
+  const { data: venues = [] } = useVenues();
 
   const savedVenues = venues.filter((v) => favorites.includes(v.id));
 

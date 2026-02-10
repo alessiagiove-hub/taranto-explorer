@@ -18,4 +18,6 @@ export interface Venue {
   is_premium: boolean;
   is_hero: boolean;
   special_offer: string | null;
+  lat: number | null;
+  lng: number | null;
 }

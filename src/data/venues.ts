@@ -17,6 +17,8 @@ export const venues: Venue[] = [
     is_premium: true,
     is_hero: true,
     special_offer: "Free beach umbrella with lunch order",
+    lat: null,
+    lng: null,
   },
   {
     id: "2",
@@ -34,6 +36,8 @@ export const venues: Venue[] = [
     is_premium: true,
     is_hero: true,
     special_offer: "10% off for tourists showing this app",
+    lat: null,
+    lng: null,
   },
   {
     id: "3",
@@ -51,6 +55,8 @@ export const venues: Venue[] = [
     is_premium: false,
     is_hero: false,
     special_offer: null,
+    lat: null,
+    lng: null,
   },
   {
     id: "4",
@@ -68,6 +74,8 @@ export const venues: Venue[] = [
     is_premium: false,
     is_hero: false,
     special_offer: "Free pastry with any specialty coffee",
+    lat: null,
+    lng: null,
   },
   {
     id: "5",
@@ -85,6 +93,8 @@ export const venues: Venue[] = [
     is_premium: false,
     is_hero: false,
     special_offer: null,
+    lat: null,
+    lng: null,
   },
   {
     id: "6",
@@ -102,6 +112,8 @@ export const venues: Venue[] = [
     is_premium: false,
     is_hero: false,
     special_offer: null,
+    lat: null,
+    lng: null,
   },
   {
     id: "7",
@@ -119,6 +131,8 @@ export const venues: Venue[] = [
     is_premium: false,
     is_hero: false,
     special_offer: null,
+    lat: null,
+    lng: null,
   },
   {
     id: "8",
@@ -136,6 +150,8 @@ export const venues: Venue[] = [
     is_premium: false,
     is_hero: false,
     special_offer: null,
+    lat: null,
+    lng: null,
   },
   {
     id: "9",
@@ -153,6 +169,8 @@ export const venues: Venue[] = [
     is_premium: false,
     is_hero: false,
     special_offer: null,
+    lat: null,
+    lng: null,
   },
   {
     id: "10",
@@ -170,5 +188,7 @@ export const venues: Venue[] = [
     is_premium: false,
     is_hero: false,
     special_offer: null,
+    lat: null,
+    lng: null,
   },
 ];

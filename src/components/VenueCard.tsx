@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Venue } from "@/data/types";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Badge } from "@/components/ui/badge";
@@ -11,15 +12,16 @@ interface VenueCardProps {
 }
 
 const VenueCard = ({ venue, isFavorite, onToggleFavorite }: VenueCardProps) => {
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   return (
-    <div
-      className={`flex gap-3 rounded-xl overflow-hidden bg-card border transition-all cursor-pointer active:scale-[0.98] ${
+    <motion.div
+      className={`flex gap-3 rounded-xl overflow-hidden bg-card border transition-colors cursor-pointer ${
         venue.is_premium ? "border-gold shadow-md" : "border-border"
       }`}
       onClick={() => navigate(`/venue/${venue.id}`)}
+      whileTap={{ scale: 0.97 }}
     >
       <div className="relative w-28 min-h-[100px] shrink-0">
         <img
@@ -49,23 +51,24 @@ const VenueCard = ({ venue, isFavorite, onToggleFavorite }: VenueCardProps) => {
             </span>
             <span className="text-xs text-muted-foreground">{venue.price_level}</span>
           </div>
-          <button
+          <motion.button
             onClick={(e) => {
               e.stopPropagation();
               onToggleFavorite(venue.id);
             }}
             className="p-1.5 -mr-1 rounded-full hover:bg-muted transition-colors"
             aria-label="Toggle favorite"
+            whileTap={{ scale: 1.4 }}
           >
             <Heart
               className={`h-4 w-4 transition-colors ${
                 isFavorite ? "fill-destructive text-destructive" : "text-muted-foreground"
               }`}
             />
-          </button>
+          </motion.button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

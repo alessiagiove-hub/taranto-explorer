@@ -1,6 +1,6 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from "@react-google-maps/api";
+import { GoogleMap, MarkerF, InfoWindowF } from "@react-google-maps/api";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useVenues } from "@/hooks/useVenues";
 import { useGoogleMapsKey } from "@/hooks/useGoogleMapsKey";
@@ -22,15 +22,37 @@ const categoryColors: Record<Category, string> = {
   Services: "#95a5a6",
 };
 
+/** Hook to load Google Maps script without the singleton Loader issue */
+function useGoogleMapsScript(apiKey: string) {
+  const [isLoaded, setIsLoaded] = useState(() => typeof google !== "undefined" && !!google.maps);
+
+  useEffect(() => {
+    if (typeof google !== "undefined" && google.maps) {
+      setIsLoaded(true);
+      return;
+    }
+    const existing = document.querySelector('script[src*="maps.googleapis.com"]');
+    if (existing) {
+      existing.addEventListener("load", () => setIsLoaded(true));
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => setIsLoaded(true);
+    document.head.appendChild(script);
+  }, [apiKey]);
+
+  return isLoaded;
+}
+
 /** Inner component — only rendered once apiKey is known */
 const MapView = ({ apiKey, venues, selectedCategory }: { apiKey: string; venues: Venue[]; selectedCategory: Category | null }) => {
   const navigate = useNavigate();
   const [selectedVenue, setSelectedVenue] = useState<Venue | null>(null);
 
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: apiKey,
-    id: "google-map-script",
-  });
+  const isLoaded = useGoogleMapsScript(apiKey);
 
   const filteredVenues = useMemo(
     () => venues.filter((v) => v.lat && v.lng && (!selectedCategory || v.category === selectedCategory)),
